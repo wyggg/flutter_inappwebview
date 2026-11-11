@@ -44,6 +44,8 @@ namespace flutter_inappwebview_plugin
 
     InAppWebViewManager(const FlutterInappwebviewWindowsPlugin* plugin);
     ~InAppWebViewManager();
+    // 在 COM apartment 仍有效时释放共享的 WinRT 与 Composition 资源。
+    static void Shutdown();
 
     void HandleMethodCall(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,

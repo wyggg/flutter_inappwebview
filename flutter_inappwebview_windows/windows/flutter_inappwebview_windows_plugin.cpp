@@ -34,10 +34,11 @@ namespace flutter_inappwebview_plugin
 
   FlutterInappwebviewWindowsPlugin::~FlutterInappwebviewWindowsPlugin()
   {
-    webViewEnvironmentManager = nullptr;
-    inAppWebViewManager = nullptr;
     inAppBrowserManager = nullptr;
     headlessInAppWebViewManager = nullptr;
+    inAppWebViewManager = nullptr;
     cookieManager = nullptr;
+    webViewEnvironmentManager = nullptr;
+    InAppWebViewManager::Shutdown();
   }
 }

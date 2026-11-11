@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fixed a Windows process-exit crash by releasing shared WinRT and Composition resources before DLL teardown.
+
 ## 0.6.0
 
 - Updated code to support multiple flutter windows

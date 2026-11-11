@@ -244,4 +244,13 @@ namespace flutter_inappwebview_plugin
     UnregisterClass(windowClass_.lpszClassName, nullptr);
     plugin = nullptr;
   }
+
+  void InAppWebViewManager::Shutdown()
+  {
+    compositor_ = nullptr;
+    graphics_context_.reset();
+    dispatcher_queue_controller_ = nullptr;
+    rohelper_.reset();
+    valid_ = false;
+  }
 }
