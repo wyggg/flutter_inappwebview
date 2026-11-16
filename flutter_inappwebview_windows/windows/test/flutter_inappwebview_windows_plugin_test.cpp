@@ -9,6 +9,7 @@
 #include <variant>
 
 #include "flutter_inappwebview_windows_plugin.h"
+#include "in_app_webview/webview_channel_delegate.h"
 
 namespace flutter_inappwebview_windows {
 namespace test {
@@ -37,6 +38,33 @@ TEST(FlutterInappwebviewWindowsPlugin, GetPlatformVersion) {
   // Since the exact string varies by host, just ensure that it's a string
   // with the expected format.
   EXPECT_TRUE(result_string.rfind("Windows ", 0) == 0);
+}
+
+TEST(WebViewChannelDelegatePermissionRequestCallback, NullResultUsesDefaultBehavior) {
+  flutter_inappwebview_plugin::WebViewChannelDelegate::PermissionRequestCallback callback;
+  bool default_behavior_called = false;
+  callback.defaultBehaviour = [&default_behavior_called](const auto result) {
+    EXPECT_FALSE(result.has_value());
+    default_behavior_called = true;
+  };
+
+  callback.Success();
+
+  EXPECT_TRUE(default_behavior_called);
+}
+
+TEST(WebViewChannelDelegatePermissionRequestCallback, NonMapResultUsesDefaultBehavior) {
+  flutter_inappwebview_plugin::WebViewChannelDelegate::PermissionRequestCallback callback;
+  bool default_behavior_called = false;
+  callback.defaultBehaviour = [&default_behavior_called](const auto result) {
+    EXPECT_FALSE(result.has_value());
+    default_behavior_called = true;
+  };
+  EncodableValue result(true);
+
+  callback.Success(result);
+
+  EXPECT_TRUE(default_behavior_called);
 }
 
 }  // namespace test

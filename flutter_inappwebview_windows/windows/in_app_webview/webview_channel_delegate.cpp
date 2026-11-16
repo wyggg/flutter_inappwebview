@@ -53,8 +53,20 @@ namespace flutter_inappwebview_plugin
   WebViewChannelDelegate::PermissionRequestCallback::PermissionRequestCallback()
   {
     decodeResult = [](const flutter::EncodableValue* value)
+      -> std::optional<const std::shared_ptr<PermissionResponse>>
       {
-        return std::make_shared<PermissionResponse>(std::get<flutter::EncodableMap>(*value));
+        if (value == nullptr || value->IsNull()) {
+          debugLog("Permission request callback returned null; defaulting to deny.");
+          return std::nullopt;
+        }
+
+        const auto* responseMap = std::get_if<flutter::EncodableMap>(value);
+        if (responseMap == nullptr) {
+          debugLog("Permission request callback returned a non-map value; defaulting to deny.");
+          return std::nullopt;
+        }
+
+        return std::make_shared<PermissionResponse>(*responseMap);
       };
   }
 
